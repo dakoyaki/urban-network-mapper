@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: urban-mapper-frontend
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false  # Set in Render dashboard to your backend URL
+

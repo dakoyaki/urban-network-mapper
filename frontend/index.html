@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walkability Network Builder</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@2.16.0/dist/leaflet-geoman.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./src/styles.css">
+</head>
+<body>
+    <div id="app">
+        <div id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h1>Walkability Network Builder</h1>
+            </div>
+            
+            <div id="main-interface" class="main-interface" style="display: block;">
+                <div class="project-selector">
+                </div>
+                
+                <div class="map-controls">
+                    <h3>Map Controls</h3>
+                    <div class="control-group">
+                        <label>Basemap:</label>
+                        <select id="basemap-selector">
+                            <option value="satellite">V-World Satellite</option>
+                            <option value="street">V-World Street</option>
+                            <option value="esri">ESRI World</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>Snapping:</label>
+                        <input type="checkbox" id="snapping-toggle" checked>
+                    </div>
+                    <div class="control-group">
+                        <label>Show Edges:</label>
+                        <input type="checkbox" id="edges-toggle" checked>
+                    </div>
+                    <div class="control-group">
+                        <label>Show Nodes:</label>
+                        <input type="checkbox" id="nodes-toggle" checked>
+                    </div>
+                </div>
+                
+                <!-- Feature type selector removed; sidewalk is default.
+                     Use keyboard: 'C' once for crosswalk, 'S' once for stairs. -->
+                
+                <div class="export-controls">
+                    <h3>Export</h3>
+                    <div class="export-buttons">
+                        <button id="export-gpkg" class="btn btn-success">Export GeoPackage</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="map-container" class="map-container">
+            <div id="map"></div>
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading...</p>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>
