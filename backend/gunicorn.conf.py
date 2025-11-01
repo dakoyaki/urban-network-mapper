@@ -1,4 +1,7 @@
-bind = "0.0.0.0:8000"
+import os
+
+# Use Railway's PORT environment variable, fallback to 8000 for local dev
+bind = f"0.0.0.0:{os.getenv('PORT', '8000')}"
 workers = 2
 worker_class = "sync"
 worker_connections = 1000
