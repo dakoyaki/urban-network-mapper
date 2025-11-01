@@ -1,0 +1,46 @@
+version: "3.9"
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      - POSTGRES_USER=walknet
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-walknet}
+      - POSTGRES_DB=walknet
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U walknet"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://walknet:${DB_PASSWORD:-walknet}@db:5432/walknet
+      - SECRET_KEY=${SECRET_KEY:-6517e71ad046667d67a424c09995982a05653431c80daad2e921db28cc86fad3}
+      - FLASK_ENV=production
+      - CORS_ORIGINS=${CORS_ORIGINS:-*}
+      - DEFAULT_PROJECT_EPSG=3857
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    environment:
+      - VITE_API_BASE_URL=${API_BASE_URL:-http://localhost:8000/api}
+      - VITE_VWORLD_API_KEY=${V_WORLD_API_KEY:-}
+    depends_on:
+      - backend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+
+volumes:
+  dbdata:
+
